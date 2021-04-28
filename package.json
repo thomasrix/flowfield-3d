@@ -1,0 +1,22 @@
+{
+  "name": "basic-parcel-boilerplate",
+  "version": "1.0.0",
+  "description": "Basic template",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node deploy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TRIX",
+  "license": "ISC",
+  "devDependencies": {
+    "fs-extra": "^8.1.0",
+    "glob-watcher": "^5.0.3",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.25.0"
+  },
+  "dependencies": {
+    "promise-polyfill": "^8.1.3",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
