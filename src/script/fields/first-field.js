@@ -3,6 +3,7 @@ import '../../style/canvas.scss';
 import {create, select} from '../utils/trix';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import SimpleTube from './SimpleTube';
 
 export default class FirstField{
     constructor(){
@@ -34,10 +35,10 @@ export default class FirstField{
         
         this.addCamera();
         this.addLights();
-        this.addPlane();
+        // this.addPlane();
         // this.addSphere();
         // this.addLine();
-        this.addTube();
+        this.addTubes();
 
         this.controls = new OrbitControls( this.camera, this.canvas );
         this.controls.update();
@@ -135,31 +136,9 @@ export default class FirstField{
         curveObject.position.set(0, 2, 0);
         this.scene.add(curveObject);
     }
-    addTube(){
-        const p = [
-            new THREE.Vector3( 0, 0, 0 ),
-            new THREE.Vector3( 0, 2, -2 ),
-            new THREE.Vector3( 0, 6, 2 ),
-            new THREE.Vector3( 1, 7, 1 ),
-            new THREE.Vector3( -3, 8, -1 ),
-        ];
-        const curve = new THREE.CatmullRomCurve3( p, false, 'catmullrom', 1);
-        
-        const points = curve.getPoints( 50 );
-        // const geometry = new THREE.BufferGeometry().setFromPoints( points );
-        
-        const geometry = new THREE.TubeGeometry( curve, 64, 0.05, 8, false );
-        // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
-        const material = new THREE.MeshStandardMaterial({
-            color: '#ff0000',
-            metalness:0.5,
-            roughness:0.1,
-            wireframe:false,
-            side:THREE.DoubleSide
-        });
-        const mesh = new THREE.Mesh( geometry, material );
-        // mesh.scale.set(0.2, 0.2, 0.2);
-        mesh.position.set(0, 0, 0);
-        this.scene.add(mesh);
+    addTubes(){
+        for(let i = 0 ; i < 100 ; i++){
+            const tube = new SimpleTube(this.scene);
+        }
     }
 }
