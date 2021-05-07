@@ -34,7 +34,7 @@ export default class FirstField{
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         console.log(this.renderer)
         this.renderer.setSize(this.width, this.height);
-
+        
         
         this.addCamera();
         this.addLights();
@@ -42,7 +42,7 @@ export default class FirstField{
         // this.addSphere();
         // this.addLine();
         this.addTubes();
-
+        
         this.controls = new OrbitControls( this.camera, this.canvas );
         this.controls.update();
         console.log(this.renderer.domElement);
@@ -50,6 +50,7 @@ export default class FirstField{
         this.renderer.render(this.scene, this.camera); 
         this.boundAni = this.animate.bind(this);
         this.boundAni();
+        this.settings.addSaveButton(this.group);
         
     }
     animate(){
@@ -142,8 +143,10 @@ export default class FirstField{
         this.scene.add(curveObject);
     }
     addTubes(){
+        this.group = new THREE.Group();
+        this.scene.add(this.group);
         for(let i = 0 ; i < 100 ; i++){
-            const tube = new SimpleTube(this.scene);
+            const tube = new SimpleTube(this.group);
         }
     }
 }
