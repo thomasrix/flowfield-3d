@@ -9,7 +9,7 @@ export default class SimpleTube{
     }
     build(){
         this.pointPosition = new THREE.Vector3(0, 0, 0);
-        this.speed = new THREE.Vector3(0, 0.2, 0);
+        this.speed = new THREE.Vector3(0, 0.5, 0);
         this.numberOfSteps = 15;
         this.makePath();
         this.drawTube();

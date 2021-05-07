@@ -4,6 +4,8 @@ import {create, select} from '../utils/trix';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import SimpleTube from './SimpleTube';
+import Controllers from './controller';
+
 
 export default class FirstField{
     constructor(){
@@ -19,6 +21,7 @@ export default class FirstField{
         this.canvas.height = this.height;
 
         this.ctx = this.canvas.getContext('webgl');
+        this.settings = new Controllers();
         this.buildScene();
     }
     buildScene(){
@@ -68,7 +71,7 @@ export default class FirstField{
     }
     addLights(){
         this.scene.add(new THREE.AmbientLight('hsl(0, 0%, 90%)'));
-        let d_light = new THREE.PointLight( 0xffffcc, 1, 0, 2);
+        let d_light = new THREE.PointLight( 0xffff00, 0.5, 0, 2);
         
         d_light.castShadow = true;
         d_light.shadow.mapSize.width = 2048; // default
@@ -76,9 +79,11 @@ export default class FirstField{
         d_light.shadow.camera.near = 0.5; // default
         d_light.shadow.camera.far = 500; // default
 
-
+        console.log(d_light.color);
         d_light.position.set( 10, 15, 7 );
         
+        this.settings.addLightController(d_light);
+
         this.scene.add(d_light);
 
     }
@@ -88,7 +93,7 @@ export default class FirstField{
         const material = new THREE.MeshStandardMaterial({
             color: '#666',
             metalness:0,
-            roughness:0.1,
+            roughness:0.2,
             wireframe:false,
             side:THREE.DoubleSide
         });
