@@ -35,7 +35,7 @@ export default class SimpleTube{
             wireframe:false,
             side:THREE.DoubleSide
         });
-        const geometry = new THREE.TubeGeometry( this.curve, 64, 0.025, 8, false );
+        const geometry = new THREE.TubeGeometry( this.curve, 64, 0.02, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, material );
         // mesh.scale.set(0.2, 0.2, 0.2);
