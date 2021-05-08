@@ -33,8 +33,6 @@ export default class Controllers{
             link.download = filename;
             link.click();
 
-            // URL.revokeObjectURL( url ); breaks Firefox...
-
         }
 
         function saveString( text, filename ) {
@@ -52,9 +50,20 @@ export default class Controllers{
     }
     addLightController(light){
         console.log('add light');
+        // this.gui.remember(color);
+        // this.gui.remember(strength);
+        this.gui.getSaveObject();
         const color = {
-            d_light:[255, 255, 0]
+            d_light:[255, 255, 255]
         }
+        const strength = {
+            d_light:0.5
+        }
+        
+        this.gui.add(strength, 'd_light', 0, 1, 0.1).onFinishChange(()=>{
+            light.intensity = strength.d_light;
+        });
+        
         this.gui.addColor(color, 'd_light').onFinishChange(()=>{
             let r = norm(color.d_light[0], 0, 255);
             let g = norm(color.d_light[1], 0, 255);

@@ -72,7 +72,7 @@ export default class FirstField{
     }
     addLights(){
         this.scene.add(new THREE.AmbientLight('hsl(0, 0%, 90%)'));
-        let d_light = new THREE.PointLight( 0xffff00, 0.5, 0, 2);
+        let d_light = new THREE.PointLight( 0xffffff, 0.6, 0, 2);
         
         d_light.castShadow = true;
         d_light.shadow.mapSize.width = 2048; // default

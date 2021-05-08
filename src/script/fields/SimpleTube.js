@@ -24,7 +24,7 @@ export default class SimpleTube{
             this.speed.add(change);
         }
         // console.log(points);
-        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 1);
+        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.5);
         
     }
     drawTube(){
