@@ -43,7 +43,7 @@ export default class SecondField{
         this.addFlow();
         // this.addSphere();
         // this.addLine();
-        this.addTubes();
+        // this.addTubes();
         
         this.controls = new OrbitControls( this.camera, this.canvas );
         this.controls.update();
@@ -62,11 +62,11 @@ export default class SecondField{
     }
     addCamera(){
         this.camera = new THREE.PerspectiveCamera(40, this.width / this.height, 0.1, 1000);
-        this.camera.position.z = 12;
+        this.camera.position.z = 24;
         this.camera.position.x = 0;
-        this.camera.position.y = 5;
+        this.camera.position.y = 8;
     
-        // this.camera.lookAt(0, 0, 0);
+        // this.camera.lookAt(10, 10, 0);
         
         this.scene.add(this.camera);
         

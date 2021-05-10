@@ -1,25 +1,40 @@
 'use strict'
 import * as THREE from 'three';
-import { NumberKeyframeTrack } from 'three';
 
 export default class Flow{
     constructor(scene, resolution){
         this.scene = scene;
         this.resolution = resolution;
+        this.width = 10;
+        this.height = 10;
+        this.parameters = {
+            scale :0.5, 
+            // Values for the attractor function
+            a : 0.6,
+            b : 0.66,
+            c : 0.4,
+            d : 1.2
+        }
         this.build();
     }
     build(){
         console.log('build flow');
         this.initSpheres();
         // this.makeSphere(0, 0.05, 0);
-        this.createCubeGrid(10, 5);
+        this.group = new THREE.Group();
+        this.scene.add(this.group);
+        this.createCubeGrid(10, 7);
+
         
     }
     createCubeGrid(size, count){
         let dx, dy, dz;
         let startZ = size * -0.5;
         let startX = size * -0.5;
+        // let startX = 0;
         let startY = 0;
+        // let startZ = 0;
+
         let step = size / (count - 1);
         for(let i = 0; i < count ; i++){
             dz = startZ + (step * i);
@@ -50,7 +65,7 @@ export default class Flow{
     }
     makePointer(x = 0, y = 0, z = 0){
         const pull = this.getValue(x, y, z);
-        console.log(x, pull.x);
+        // console.log(x, pull.x);
         const points = [
             new THREE.Vector3(x, y, z),
             new THREE.Vector3(pull.x, pull.y, pull.z),
@@ -60,7 +75,7 @@ export default class Flow{
         const tubeGeom = new THREE.TubeGeometry( line, 64, 0.01, 8, false );
         const mesh = new THREE.Mesh( tubeGeom, this.material );
         // const line = new THREE.Line( geometry );
-        this.scene.add( mesh );
+        this.group.add( mesh );
 
     }
     makeSphere(x = 0, y = 0, z = 0){
@@ -68,16 +83,41 @@ export default class Flow{
         const mesh = new THREE.Mesh(this.sphereGeom, this.material);
         mesh.position.set(x, y, z);
         mesh.castShadow = true;
-        this.scene.add(mesh);
+        this.group.add(mesh);
     }
     getValue(x = 0, y = 0, z = 0){
-        let nx = x + 0.2;
-        let ny = y + 0.2;
+        // let nx;
+        // let ny = y + 0.4;
         let nz = z + 0;
+        let dx = (x - (this.width / 2)) * this.parameters.scale;
+        let dy = (y - this.height / 2) * this.parameters.scale;
+        // console.log('dx', dx, x);
+        
+        
+        let nx = Math.sin(this.parameters.a * dy) + this.parameters.c * Math.cos(this.parameters.a * dx);
+        let ny = Math.sin(this.parameters.b * dx) + this.parameters.d * Math.cos(this.parameters.b * dy);
+        // console.log('nx', nx, x);
+
+
         return {
-            x:nx,
-            y:ny,
+            x:x + (nx * 0.5),
+            y:y + (ny * 0.5),
             z:nz
         }
+/*
+            // clifford attractor
+    // http://paulbourke.net/fractals/clifford/
+    
+    // scale down values
+    var scale = 0.005;
+    x = (x - width / 2) * scale;
+    y = (y - height / 2)  * scale;
+    
+    // attactor gives new x, y for old one. 
+    var x1 = Math.sin(parameters.a * y) + parameters.c * Math.cos(parameters.a * x);
+    var y1 = Math.sin(parameters.b * x) + parameters.d * Math.cos(parameters.b * y);
+    
+    // find angle from old to new. that's the value.
+    return Math.atan2(y1 - y, x1 - x);*/
     }
 }
