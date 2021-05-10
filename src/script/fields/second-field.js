@@ -39,7 +39,7 @@ export default class SecondField{
         
         this.addCamera();
         this.addLights();
-        this.addPlane();
+        // this.addPlane();
         this.addFlow();
         // this.addSphere();
         // this.addLine();

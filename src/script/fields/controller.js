@@ -11,6 +11,7 @@ export default class Controllers{
         this.gui = new dat.GUI({
             useLocalStorage:true
         });
+        this.gui.close();
         
     }
     addSaveButton(object){
