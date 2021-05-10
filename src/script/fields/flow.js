@@ -13,7 +13,9 @@ export default class Flow{
             a : 0.6,
             b : 0.66,
             c : 0.4,
-            d : 1.2
+            d : 1.2,
+            e : 0, 
+            f : 0
         }
         this.build();
     }
@@ -89,7 +91,7 @@ export default class Flow{
     getValue(x = 0, y = 0, z = 0){
         // let nx;
         // let ny = y + 0.4;
-        let nz = z + 0;
+        let dz = (z - (this.width / 2)) * this.parameters.scale
         let dx = (x - (this.width / 2)) * this.parameters.scale;
         let dy = (y - this.height / 2) * this.parameters.scale;
         // console.log('dx', dx, x);
@@ -97,13 +99,14 @@ export default class Flow{
         
         let nx = Math.sin(this.parameters.a * dy) + this.parameters.c * Math.cos(this.parameters.a * dx);
         let ny = Math.sin(this.parameters.b * dx) + this.parameters.d * Math.cos(this.parameters.b * dy);
+        let nz = Math.sin(this.parameters.e * dz) + this.parameters.f * Math.cos(this.parameters.e * dy);
         // console.log('nx', nx, x);
 
 
         return {
             x:x + (nx * 0.5),
             y:y + (ny * 0.5),
-            z:nz
+            z:z + (nz * 0.5)
         }
 /*
             // clifford attractor

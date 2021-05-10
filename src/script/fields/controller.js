@@ -87,6 +87,12 @@ export default class Controllers{
         flowFolder.add(flow.parameters, 'd', -1, 1, 0.05).onFinishChange(()=>{
             flow.redraw();
         });
+        flowFolder.add(flow.parameters, 'e', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
+        flowFolder.add(flow.parameters, 'f', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
 
     }
 }
