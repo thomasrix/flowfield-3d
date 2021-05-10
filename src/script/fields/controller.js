@@ -73,4 +73,20 @@ export default class Controllers{
             light.color.setRGB(r, g, b);
         });
     }
+    addFlowControllers(flow){
+        const flowFolder = this.gui.addFolder('Flow Controls')
+        flowFolder.add(flow.parameters, 'a', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
+        flowFolder.add(flow.parameters, 'b', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
+        flowFolder.add(flow.parameters, 'c', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
+        flowFolder.add(flow.parameters, 'd', -1, 1, 0.05).onFinishChange(()=>{
+            flow.redraw();
+        });
+
+    }
 }

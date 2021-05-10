@@ -33,6 +33,7 @@ export default class Flow{
         let startX = size * -0.5;
         // let startX = 0;
         let startY = 0;
+        // let startY = size * -0.5;
         // let startZ = 0;
 
         let step = size / (count - 1);
@@ -119,5 +120,14 @@ export default class Flow{
     
     // find angle from old to new. that's the value.
     return Math.atan2(y1 - y, x1 - x);*/
+    }
+    emptyGroup(){
+        for (let i = this.group.children.length - 1; i >= 0; i--) {
+            this.group.remove(this.group.children[i]);
+        }
+    }
+    redraw(){
+        this.emptyGroup();
+        this.createCubeGrid(10, 7);
     }
 }

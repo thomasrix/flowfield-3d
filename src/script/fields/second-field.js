@@ -130,6 +130,7 @@ export default class SecondField{
     }
     addFlow(){
         this.flow = new Flow(this.scene, 5);
+        this.settings.addFlowControllers(this.flow);
     }
     addTubes(){
         this.group = new THREE.Group();
