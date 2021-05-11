@@ -6,6 +6,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import SimpleTube from './SimpleTube';
 import Controllers from './controller';
 import Flow from './flow';
+import FlowTube from './FlowTube';
 
 
 export default class SecondField{
@@ -43,7 +44,7 @@ export default class SecondField{
         this.addFlow();
         // this.addSphere();
         // this.addLine();
-        // this.addTubes();
+        this.addTubes();
         
         this.controls = new OrbitControls( this.camera, this.canvas );
         this.controls.update();
@@ -135,8 +136,8 @@ export default class SecondField{
     addTubes(){
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        for(let i = 0 ; i < 10 ; i++){
-            const tube = new SimpleTube(this.group);
+        for(let i = 0 ; i < 15 ; i++){
+            const tube = new FlowTube(this.group, this.flow, {x:i/8, y:3, z:0});
         }
     }
 }

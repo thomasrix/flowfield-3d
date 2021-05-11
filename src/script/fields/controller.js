@@ -74,24 +74,27 @@ export default class Controllers{
         });
     }
     addFlowControllers(flow){
-        const flowFolder = this.gui.addFolder('Flow Controls')
+        const flowFolder = this.gui.addFolder('Flow Controls');
+        flowFolder.add(flow, 'showFlow');
+        flowFolder.add(flow, 'hideFlow');
+
         flowFolder.add(flow.parameters, 'a', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
         flowFolder.add(flow.parameters, 'b', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
         flowFolder.add(flow.parameters, 'c', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
         flowFolder.add(flow.parameters, 'd', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
         flowFolder.add(flow.parameters, 'e', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
         flowFolder.add(flow.parameters, 'f', -1, 1, 0.05).onFinishChange(()=>{
-            flow.redraw();
+            flow.redrawFlow();
         });
 
     }

@@ -7,6 +7,7 @@ export default class Flow{
         this.resolution = resolution;
         this.width = 10;
         this.height = 10;
+        this.visible = false;
         this.parameters = {
             scale :0.5, 
             // Values for the attractor function
@@ -14,8 +15,8 @@ export default class Flow{
             b : 0.66,
             c : 0.4,
             d : 1.2,
-            e : 0, 
-            f : 0
+            e : 0.3, 
+            f : 0.3
         }
         this.build();
     }
@@ -25,7 +26,7 @@ export default class Flow{
         // this.makeSphere(0, 0.05, 0);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        this.createCubeGrid(10, 7);
+        // this.createCubeGrid(10, 7);
 
         
     }
@@ -124,13 +125,24 @@ export default class Flow{
     // find angle from old to new. that's the value.
     return Math.atan2(y1 - y, x1 - x);*/
     }
+    showFlow(){
+        this.visible = true;
+        this.emptyGroup();
+        this.createCubeGrid(10, 7);
+    }
+    hideFlow(){
+        this.visible = false;
+        this.emptyGroup();
+    }
     emptyGroup(){
         for (let i = this.group.children.length - 1; i >= 0; i--) {
             this.group.remove(this.group.children[i]);
         }
     }
-    redraw(){
-        this.emptyGroup();
-        this.createCubeGrid(10, 7);
+    redrawFlow(){
+        if(this.visible){
+            this.emptyGroup();
+            this.createCubeGrid(10, 7);
+        }
     }
 }
