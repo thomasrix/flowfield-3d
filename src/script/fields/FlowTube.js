@@ -12,7 +12,7 @@ export default class FlowTube{
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
         this.speed = new THREE.Vector3(0, 0, 0);
-        this.numberOfSteps = 30;
+        this.numberOfSteps = 60;
         this.makePath();
         this.drawTube();
     }
@@ -24,15 +24,16 @@ export default class FlowTube{
             const flowValue = this.flow.getValue(this.pointPosition.x, this.pointPosition.y, this.pointPosition.z);
             // const change = new THREE.Vector3((Math.random() * 0.6) -0.3, (Math.random() * 0.6) -0.3, (Math.random() * 0.6) -0.3);
             const diff = new THREE.Vector3().subVectors(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z), this.pointPosition);
-            // console.log(diff);
-            this.speed.add(diff.multiplyScalar(0.1));
+            // console.log(diff.length());
+            // diff.setLength(0.01);
+            this.speed.add(diff.multiplyScalar(0.15));
             this.pointPosition.add(this.speed);
 
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z).multiplyScalar(0.05));
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
         }
         // console.log(points);
-        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.5);
+        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.25);
         
     }
     drawTube(){
@@ -43,7 +44,7 @@ export default class FlowTube{
             wireframe:false,
             side:THREE.DoubleSide
         });
-        const geometry = new THREE.TubeGeometry( this.curve, 64, 0.02, 8, false );
+        const geometry = new THREE.TubeGeometry( this.curve, 64, 0.05, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, material );
         // mesh.scale.set(0.2, 0.2, 0.2);

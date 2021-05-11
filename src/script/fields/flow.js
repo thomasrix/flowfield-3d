@@ -5,8 +5,8 @@ export default class Flow{
     constructor(scene, resolution){
         this.scene = scene;
         this.resolution = resolution;
-        this.width = 10;
-        this.height = 10;
+        this.width = 20;
+        this.height = 20;
         this.visible = false;
         this.parameters = {
             scale :0.5, 
@@ -128,7 +128,7 @@ export default class Flow{
     showFlow(){
         this.visible = true;
         this.emptyGroup();
-        this.createCubeGrid(10, 7);
+        this.createCubeGrid(this.width, 7);
     }
     hideFlow(){
         this.visible = false;
@@ -142,7 +142,7 @@ export default class Flow{
     redrawFlow(){
         if(this.visible){
             this.emptyGroup();
-            this.createCubeGrid(10, 7);
+            this.createCubeGrid(this.width, 7);
         }
     }
 }

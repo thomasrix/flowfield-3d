@@ -21,7 +21,7 @@ export default class SecondField{
         this.canvas = create('canvas', container, 'draw-canvas');
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-
+        
         this.ctx = this.canvas.getContext('webgl');
         this.settings = new Controllers();
         this.buildScene();
@@ -44,7 +44,10 @@ export default class SecondField{
         this.addFlow();
         // this.addSphere();
         // this.addLine();
+        this.tubes = new THREE.Group();
+        this.scene.add(this.tubes);
         this.addTubes();
+        this.scene.add(new THREE.GridHelper());
         
         this.controls = new OrbitControls( this.camera, this.canvas );
         this.controls.update();
@@ -53,7 +56,8 @@ export default class SecondField{
         this.boundAni = this.animate.bind(this);
         this.boundAni();
         
-        this.settings.addSaveButton(this.group);
+        this.settings.addSaveButton(this.tubes);
+        this.settings.gui.add(this, 'reTube');
     }
     animate(){
         // console.log('animate');
@@ -66,7 +70,7 @@ export default class SecondField{
         this.camera.position.z = 24;
         this.camera.position.x = 0;
         this.camera.position.y = 8;
-    
+        
         // this.camera.lookAt(10, 10, 0);
         
         this.scene.add(this.camera);
@@ -81,18 +85,18 @@ export default class SecondField{
         d_light.shadow.mapSize.height = 2048; // default
         d_light.shadow.camera.near = 0.5; // default
         d_light.shadow.camera.far = 500; // default
-
+        
         console.log(d_light.color);
         d_light.position.set( 10, 15, 7 );
         
         this.settings.addLightController(d_light);
-
+        
         this.scene.add(d_light);
-
+        
     }
     addPlane(){
         this.planeGeom = new THREE.PlaneGeometry(10, 10, 10, 10);
-
+        
         const material = new THREE.MeshStandardMaterial({
             color: '#666',
             metalness:0,
@@ -100,15 +104,15 @@ export default class SecondField{
             wireframe:false,
             side:THREE.DoubleSide
         });
-
+        
         this.plane = new THREE.Mesh(this.planeGeom, material);
         this.plane.rotateX(-Math.PI * 0.5);
         this.plane.receiveShadow = true;
         this.scene.add(this.plane);
-
+        
         console.log(this.plane.position)
     }
-
+    
     addLine(){
         const curve = new THREE.CatmullRomCurve3( [
             new THREE.Vector3( -10, 0, 10 ),
@@ -134,10 +138,15 @@ export default class SecondField{
         this.settings.addFlowControllers(this.flow);
     }
     addTubes(){
-        this.group = new THREE.Group();
-        this.scene.add(this.group);
-        for(let i = 0 ; i < 15 ; i++){
-            const tube = new FlowTube(this.group, this.flow, {x:i/8, y:3, z:0});
+        
+        for(let i = 0 ; i < 10 ; i++){
+            const tube = new FlowTube(this.tubes, this.flow, {x:i/8, y:3, z:0});
         }
+    }
+    reTube(){        
+        for (let i = this.tubes.children.length - 1; i >= 0; i--) {
+            this.tubes.remove(this.tubes.children[i]);
+        }
+        this.addTubes();
     }
 }
