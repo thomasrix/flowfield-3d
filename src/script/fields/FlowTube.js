@@ -1,6 +1,7 @@
 'use strict'
 import * as THREE from 'three';
 import { Vector2, Vector3 } from 'three';
+import {lerp} from '../utils/trix';
 
 export default class FlowTube{
     constructor(scene, flow, position){
@@ -12,7 +13,7 @@ export default class FlowTube{
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
         this.speed = new THREE.Vector3(0, 0, 0);
-        this.numberOfSteps = 60;
+        this.numberOfSteps = 75;
         this.makePath();
         this.drawTube();
     }
@@ -44,7 +45,8 @@ export default class FlowTube{
             wireframe:false,
             side:THREE.DoubleSide
         });
-        const geometry = new THREE.TubeGeometry( this.curve, 64, 0.05, 8, false );
+        const diameter = lerp(Math.random(), 0.005, 0.25);
+        const geometry = new THREE.TubeGeometry( this.curve, 128, diameter, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, material );
         // mesh.scale.set(0.2, 0.2, 0.2);

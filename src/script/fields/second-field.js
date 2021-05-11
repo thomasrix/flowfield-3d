@@ -139,7 +139,7 @@ export default class SecondField{
     }
     addTubes(){
         
-        for(let i = 0 ; i < 10 ; i++){
+        for(let i = 0 ; i < 200 ; i++){
             const tube = new FlowTube(this.tubes, this.flow, {x:i/8, y:3, z:0});
         }
     }
