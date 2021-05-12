@@ -5,16 +5,16 @@ export default class Flow{
     constructor(scene, resolution){
         this.scene = scene;
         this.resolution = resolution;
-        this.width = 20;
-        this.height = 20;
-        this.visible = false;
+        this.width = 30;
+        this.height = 30;
+        this.visible = true;
         this.parameters = {
             scale :0.5, 
             // Values for the attractor function
-            a : 0.6,
-            b : 0.66,
-            c : 0.4,
-            d : 1.2,
+            a : -0.5,
+            b : -0.9,
+            c : -0.2,
+            d : 0.5,
             e : 0.3, 
             f : 0.3
         }
@@ -26,18 +26,18 @@ export default class Flow{
         // this.makeSphere(0, 0.05, 0);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        // this.createCubeGrid(10, 7);
+        this.createCubeGrid(this.width, 7);
 
         
     }
     createCubeGrid(size, count){
         let dx, dy, dz;
-        let startZ = size * -0.5;
-        let startX = size * -0.5;
-        // let startX = 0;
-        let startY = 0;
+        // let startZ = size * -0.5;
+        let startZ = 0;
+        // let startX = size * -0.5;
+        let startX = 0;
         // let startY = size * -0.5;
-        // let startZ = 0;
+        let startY = 0;
 
         let step = size / (count - 1);
         for(let i = 0; i < count ; i++){
@@ -53,7 +53,7 @@ export default class Flow{
         }
     }
     initSpheres(){
-        this.sphereGeom = new THREE.SphereGeometry( 0.05, 16, 16 );
+        this.sphereGeom = new THREE.SphereGeometry( 0.15, 16, 16 );
     
         this.material = new THREE.MeshStandardMaterial({
             color: '#999900',
@@ -76,7 +76,7 @@ export default class Flow{
         ]
         // const geometry = new THREE.BufferGeometry().setFromPoints( points );
         const line = new THREE.LineCurve3(new THREE.Vector3(x, y, z), new THREE.Vector3(pull.x, pull.y, pull.z));
-        const tubeGeom = new THREE.TubeGeometry( line, 64, 0.01, 8, false );
+        const tubeGeom = new THREE.TubeGeometry( line, 64, 0.03, 8, false );
         const mesh = new THREE.Mesh( tubeGeom, this.material );
         // const line = new THREE.Line( geometry );
         this.group.add( mesh );
@@ -91,23 +91,25 @@ export default class Flow{
     }
     getValue(x = 0, y = 0, z = 0){
         // let nx;
+        let dx = (x - (this.width / 2)) * this.parameters.scale;
+        // console.log('x', x, dx);
         // let ny = y + 0.4;
         let dz = (z - (this.width / 2)) * this.parameters.scale
-        let dx = (x - (this.width / 2)) * this.parameters.scale;
         let dy = (y - this.height / 2) * this.parameters.scale;
         // console.log('dx', dx, x);
         
         
         let nx = Math.sin(this.parameters.a * dy) + this.parameters.c * Math.cos(this.parameters.a * dx);
         let ny = Math.sin(this.parameters.b * dx) + this.parameters.d * Math.cos(this.parameters.b * dy);
-        let nz = Math.sin(this.parameters.e * dz) + this.parameters.f * Math.cos(this.parameters.e * dy);
+        // let nz = Math.sin(this.parameters.e * dz) + this.parameters.f * Math.cos(this.parameters.e * dy);
         // console.log('nx', nx, x);
+        let nz = 0;
 
 
         return {
-            x:x + (nx * 0.5),
-            y:y + (ny * 0.5),
-            z:z + (nz * 0.5)
+            x:x + (nx),
+            y:y + (ny),
+            z:z + (nz)
         }
 /*
             // clifford attractor

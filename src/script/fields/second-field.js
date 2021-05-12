@@ -46,7 +46,7 @@ export default class SecondField{
         // this.addLine();
         this.tubes = new THREE.Group();
         this.scene.add(this.tubes);
-        this.addTubes();
+        // this.addTubes();
         this.scene.add(new THREE.GridHelper());
         
         this.controls = new OrbitControls( this.camera, this.canvas );
@@ -137,10 +137,13 @@ export default class SecondField{
         this.flow = new Flow(this.scene, 5);
         this.settings.addFlowControllers(this.flow);
     }
+    addTubeWithEnd(){
+
+    }
     addTubes(){
         
         for(let i = 0 ; i < 200 ; i++){
-            const tube = new FlowTube(this.tubes, this.flow, {x:i/8, y:3, z:0});
+            const tube = new FlowTube(this.tubes, this.flow, {x:10+i/10, y:15, z:10});
         }
     }
     reTube(){        
