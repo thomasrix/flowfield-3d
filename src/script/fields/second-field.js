@@ -57,6 +57,7 @@ export default class SecondField{
         this.boundAni();
         
         this.settings.addSaveButton(this.tubes);
+        this.settings.gui.add(this, 'removeTubes');
         this.settings.gui.add(this, 'reTube');
     }
     animate(){
@@ -142,14 +143,17 @@ export default class SecondField{
     }
     addTubes(){
         
-        for(let i = 0 ; i < 200 ; i++){
+        for(let i = 0 ; i < 100 ; i++){
             const tube = new FlowTube(this.tubes, this.flow, {x:10+i/10, y:15, z:10});
         }
     }
-    reTube(){        
+    removeTubes(){
         for (let i = this.tubes.children.length - 1; i >= 0; i--) {
             this.tubes.remove(this.tubes.children[i]);
         }
+    }
+    reTube(){       
+        this.removeTubes(); 
         this.addTubes();
     }
 }

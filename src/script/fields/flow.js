@@ -9,7 +9,7 @@ export default class Flow{
         this.height = 30;
         this.visible = true;
         this.parameters = {
-            scale :0.5, 
+            scale :0.33, 
             // Values for the attractor function
             a : -0.5,
             b : -0.9,
@@ -69,13 +69,8 @@ export default class Flow{
     }
     makePointer(x = 0, y = 0, z = 0){
         const pull = this.getValue(x, y, z);
-        // console.log(x, pull.x);
-        const points = [
-            new THREE.Vector3(x, y, z),
-            new THREE.Vector3(pull.x, pull.y, pull.z),
-        ]
-        // const geometry = new THREE.BufferGeometry().setFromPoints( points );
-        const line = new THREE.LineCurve3(new THREE.Vector3(x, y, z), new THREE.Vector3(pull.x, pull.y, pull.z));
+        console.log('pull', new THREE.Vector3(x, y, z).distanceTo( pull));
+        const line = new THREE.LineCurve3(new THREE.Vector3(x, y, z), pull);
         const tubeGeom = new THREE.TubeGeometry( line, 64, 0.03, 8, false );
         const mesh = new THREE.Mesh( tubeGeom, this.material );
         // const line = new THREE.Line( geometry );
@@ -100,17 +95,17 @@ export default class Flow{
         
         
         let nx = Math.sin(this.parameters.a * dy) + this.parameters.c * Math.cos(this.parameters.a * dx);
-        let ny = Math.sin(this.parameters.b * dx) + this.parameters.d * Math.cos(this.parameters.b * dy);
-        // let nz = Math.sin(this.parameters.e * dz) + this.parameters.f * Math.cos(this.parameters.e * dy);
+        let ny = Math.sin(this.parameters.b * dx) + this.parameters.d * Math.cos(this.parameters.b * dz);
+        let nz = Math.sin(this.parameters.e * dz) + this.parameters.f * Math.cos(this.parameters.e * dx);
         // console.log('nx', nx, x);
-        let nz = 0;
+        // let nz = 0;
 
-
-        return {
+        return new THREE.Vector3( x + nx, y + ny, z + nz);
+/*         return {
             x:x + (nx),
             y:y + (ny),
             z:z + (nz)
-        }
+        } */
 /*
             // clifford attractor
     // http://paulbourke.net/fractals/clifford/
