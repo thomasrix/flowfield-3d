@@ -13,10 +13,10 @@ export default class Flow{
             // Values for the attractor function
             a : -0.5,
             b : -0.9,
-            c : -0.2,
-            d : 0.5,
+            c : -0.55,
+            d : -0.5,
             e : 0.3, 
-            f : 0.3
+            f : 0.15
         }
         this.build();
     }

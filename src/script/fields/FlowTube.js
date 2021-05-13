@@ -12,8 +12,8 @@ export default class FlowTube{
     }
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
-        this.speed = new THREE.Vector3(0, 0, 0);
-        this.numberOfSteps = 70;
+        this.speed = new THREE.Vector3(0, 0.2, 0);
+        this.numberOfSteps = 300;
         this.makePath();
         this.drawTube();
     }
@@ -27,12 +27,12 @@ export default class FlowTube{
             const diff = new THREE.Vector3().subVectors(flowValue, this.pointPosition);
             // const angle = this.pointPosition.angleTo(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
             // console.log('angle', angle)
-            console.log(diff.length());
+            // console.log(diff.length());
             // diff.setLength(0.01);
             // this.speed.add(diff.multiplyScalar(0.15));
             this.speed.addScaledVector(diff, 0.13);
             this.pointPosition.add(this.speed);
-            this.speed.multiplyScalar(0.8);
+            this.speed.multiplyScalar(0.75);
 
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z).multiplyScalar(0.05));
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
@@ -49,8 +49,8 @@ export default class FlowTube{
             wireframe:false,
             side:THREE.DoubleSide
         });
-        const diameter = lerp(Math.random(), 0.005, 0.25);
-        const geometry = new THREE.TubeGeometry( this.curve, 128, diameter, 8, false );
+        const diameter = lerp(Math.random(), 0.003, 0.08);
+        const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 2, diameter, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, material );
         // mesh.scale.set(0.2, 0.2, 0.2);

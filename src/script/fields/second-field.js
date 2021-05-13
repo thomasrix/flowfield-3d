@@ -1,6 +1,6 @@
 'use stric'
 import '../../style/canvas.scss';
-import {create, select} from '../utils/trix';
+import {create, select, lerp} from '../utils/trix';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import SimpleTube from './SimpleTube';
@@ -142,9 +142,12 @@ export default class SecondField{
 
     }
     addTubes(){
-        
-        for(let i = 0 ; i < 100 ; i++){
-            const tube = new FlowTube(this.tubes, this.flow, {x:10+i/10, y:15, z:10});
+        const center = this.flow.width / 2;
+        for(let i = 0 ; i < 300 ; i++){
+            const tube = new FlowTube(this.tubes, this.flow, {
+                x:lerp(Math.random(), center -2, center + 2), 
+                y:lerp(Math.random(), 1, 4), 
+                z:lerp(Math.random(), center -2, center + 2)});
         }
     }
     removeTubes(){
