@@ -3,7 +3,8 @@ import '../../style/canvas.scss';
 import {create, select, lerp} from '../utils/trix';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import SimpleTube from './SimpleTube';
+
+import SimpleTubeWithEnd from './SimpleTubeWithEnd';
 import Controllers from './controller';
 import Flow from './flow';
 import FlowTube from './FlowTube';
@@ -44,9 +45,10 @@ export default class SecondField{
         this.addFlow();
         // this.addSphere();
         // this.addLine();
+        // this.addTubeWithEnd();
         this.tubes = new THREE.Group();
         this.scene.add(this.tubes);
-        // this.addTubes();
+        this.addTubes();
         this.scene.add(new THREE.GridHelper());
         
         this.controls = new OrbitControls( this.camera, this.canvas );
@@ -68,8 +70,8 @@ export default class SecondField{
     }
     addCamera(){
         this.camera = new THREE.PerspectiveCamera(40, this.width / this.height, 0.1, 1000);
-        this.camera.position.z = 24;
-        this.camera.position.x = 0;
+        this.camera.position.z = 80;
+        this.camera.position.x = 20;
         this.camera.position.y = 8;
         
         // this.camera.lookAt(10, 10, 0);
@@ -139,24 +141,60 @@ export default class SecondField{
         this.settings.addFlowControllers(this.flow);
     }
     addTubeWithEnd(){
-
+        const tubes = [];
+        for(let i = 0 ; i < 3 ; i++){
+            tubes[i] = new SimpleTubeWithEnd(this.scene, i);
+        }
+        
+        
     }
     addTubes(){
+        const baseMaterial = new THREE.MeshStandardMaterial({
+            color: '#917d7d',
+            metalness:0.3,
+            roughness:0.1,
+            wireframe:false,
+            // side:THREE.DoubleSide
+        });
+        const extraMaterial = new THREE.MeshStandardMaterial({
+            color: '#CC0000',
+            metalness:0.3,
+            roughness:0.1,
+            wireframe:false,
+            // side:THREE.DoubleSide
+        });
         const center = this.flow.width / 2;
+        
         for(let i = 0 ; i < 300 ; i++){
-            const tube = new FlowTube(this.tubes, this.flow, {
-                x:lerp(Math.random(), center -2, center + 2), 
-                y:lerp(Math.random(), 1, 4), 
-                z:lerp(Math.random(), center -2, center + 2)});
+            const tube = new FlowTube(
+                this.tubes, 
+                this.flow, 
+                {
+                    x:lerp(Math.random(), center -2, center + 2), 
+                    y:lerp(Math.random(), 1, 4), 
+                    z:lerp(Math.random(), center -2, center + 2)
+                },
+                baseMaterial);
+            }
+        for(let i = 0 ; i < 5 ; i++){
+            const tube = new FlowTube(
+                this.tubes, 
+                this.flow, 
+                {
+                    x:lerp(Math.random(), center -0.5, center + 0.5), 
+                    y:lerp(Math.random(), 1, 1.5), 
+                    z:lerp(Math.random(), center -0.5, center + 0.5)
+                },
+                extraMaterial);
+            }
+        }
+        removeTubes(){
+            for (let i = this.tubes.children.length - 1; i >= 0; i--) {
+                this.tubes.remove(this.tubes.children[i]);
+            }
+        }
+        reTube(){       
+            this.removeTubes(); 
+            this.addTubes();
         }
     }
-    removeTubes(){
-        for (let i = this.tubes.children.length - 1; i >= 0; i--) {
-            this.tubes.remove(this.tubes.children[i]);
-        }
-    }
-    reTube(){       
-        this.removeTubes(); 
-        this.addTubes();
-    }
-}

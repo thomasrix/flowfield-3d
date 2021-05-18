@@ -21,12 +21,12 @@ export default class Flow{
         this.build();
     }
     build(){
-        console.log('build flow');
+        // console.log('build flow');
         this.initSpheres();
         // this.makeSphere(0, 0.05, 0);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        this.createCubeGrid(this.width, 7);
+        // this.createCubeGrid(this.width, 7);
 
         
     }
@@ -69,7 +69,7 @@ export default class Flow{
     }
     makePointer(x = 0, y = 0, z = 0){
         const pull = this.getValue(x, y, z);
-        console.log('pull', new THREE.Vector3(x, y, z).distanceTo( pull));
+        // console.log('pull', new THREE.Vector3(x, y, z).distanceTo( pull));
         const line = new THREE.LineCurve3(new THREE.Vector3(x, y, z), pull);
         const tubeGeom = new THREE.TubeGeometry( line, 64, 0.03, 8, false );
         const mesh = new THREE.Mesh( tubeGeom, this.material );
