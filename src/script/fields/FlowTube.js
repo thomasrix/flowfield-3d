@@ -13,7 +13,7 @@ export default class FlowTube{
     }
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
-        this.speed = new THREE.Vector3(0, 0.5, 0);
+        this.speed = new THREE.Vector3(0, 0.2, 0.1);
         this.numberOfSteps = 300;
         this.tubeGroup = new THREE.Group();
         this.scene.add(this.tubeGroup);

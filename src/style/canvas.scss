@@ -1,9 +1,15 @@
 .canvas-container{
-    width:100%;
+    width:calc(100% - 220px);
+    // margin-left: 220px;
     .draw-canvas{
         display: block;
         margin: 1vh 1% 1vh 1%;
         width:98%;
         // height:98vh;
     }
+};
+.settings-container{
+    position: absolute;
+    top:10px;
+    left:10px;
 }

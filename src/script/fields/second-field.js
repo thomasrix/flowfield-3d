@@ -15,6 +15,7 @@ export default class SecondField{
         console.log('first constructed');
         this.width = 1920;
         this.height = 1920;
+        this.numOfTubes = 100;
         this.build();
     }
     build(){
@@ -61,6 +62,7 @@ export default class SecondField{
         this.settings.addSaveButton(this.tubes);
         this.settings.gui.add(this, 'removeTubes');
         this.settings.gui.add(this, 'reTube');
+        this.settings.gui.add(this, 'numOfTubes', 10, 500, 10);
     }
     animate(){
         // console.log('animate');
@@ -137,7 +139,7 @@ export default class SecondField{
         this.scene.add(curveObject);
     }
     addFlow(){
-        this.flow = new Flow(this.scene, 5);
+        this.flow = new Flow(this.scene, 5, this.reTube.bind(this));
         this.settings.addFlowControllers(this.flow);
     }
     addTubeWithEnd(){
@@ -145,8 +147,6 @@ export default class SecondField{
         for(let i = 0 ; i < 3 ; i++){
             tubes[i] = new SimpleTubeWithEnd(this.scene, i);
         }
-        
-        
     }
     addTubes(){
         const baseMaterial = new THREE.MeshStandardMaterial({
@@ -165,7 +165,7 @@ export default class SecondField{
         });
         const center = this.flow.width / 2;
         
-        for(let i = 0 ; i < 300 ; i++){
+        for(let i = 0 ; i < this.numOfTubes ; i++){
             const tube = new FlowTube(
                 this.tubes, 
                 this.flow, 
@@ -176,7 +176,7 @@ export default class SecondField{
                 },
                 baseMaterial);
             }
-        for(let i = 0 ; i < 5 ; i++){
+        for(let i = 0 ; i < 3 ; i++){
             const tube = new FlowTube(
                 this.tubes, 
                 this.flow, 
@@ -197,4 +197,5 @@ export default class SecondField{
             this.removeTubes(); 
             this.addTubes();
         }
+        
     }

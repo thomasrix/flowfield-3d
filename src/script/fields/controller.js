@@ -1,7 +1,9 @@
 'use strict'
 import * as dat from 'dat.gui';
-import {norm} from '../utils/trix';
+import {create, select, norm} from '../utils/trix';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
+
+import {Panel, Button, HSlider} from '../utils/minimalcomps.mjs';
 
 export default class Controllers{
     constructor(){
@@ -12,7 +14,14 @@ export default class Controllers{
             useLocalStorage:true
         });
         this.gui.close();
+        // this.settingsContainer = create('div', select('body'), 'settings-container');
+        // this.addPanel();
         
+    }
+    addPanel(){
+        const panel = new Panel(this.settingsContainer, 0, 0, 200, 400);
+        new HSlider(panel, 20, 20, "Velocity", 0, 0, 100);
+        // new Button(panel, 20, 20, "Save!", () => this.re);
     }
     addSaveButton(object){
         this.link = document.createElement( 'a' );
@@ -26,19 +35,19 @@ export default class Controllers{
         console.log('save');
         
         const link = this.link;
-
+        
         function saveIT( blob, filename ) {
             console.log('text', blob)
-
+            
             link.href = URL.createObjectURL( blob );
             link.download = filename;
             link.click();
-
+            
         }
-
+        
         function saveString( text, filename ) {
             saveIT( new Blob( [ text ], { type: 'text/plain' } ), filename );
-
+            
         }
         // Instantiate a exporter
         const exporter = new GLTFExporter();
@@ -77,7 +86,9 @@ export default class Controllers{
         const flowFolder = this.gui.addFolder('Flow Controls');
         flowFolder.add(flow, 'showFlow');
         flowFolder.add(flow, 'hideFlow');
-
+        flowFolder.add(flow, 'copyFlow');
+        flowFolder.add(flow, 'redrawOnChange');
+        
         flowFolder.add(flow.parameters, 'a', -1, 1, 0.05).onFinishChange(()=>{
             flow.redrawFlow();
         });
@@ -96,6 +107,6 @@ export default class Controllers{
         flowFolder.add(flow.parameters, 'f', -1, 1, 0.05).onFinishChange(()=>{
             flow.redrawFlow();
         });
-
+        
     }
 }

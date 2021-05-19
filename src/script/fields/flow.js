@@ -2,14 +2,16 @@
 import * as THREE from 'three';
 
 export default class Flow{
-    constructor(scene, resolution){
+    constructor(scene, resolution, redrawCallback){
         this.scene = scene;
+        this.redraw = redrawCallback;
         this.resolution = resolution;
         this.width = 30;
         this.height = 30;
         this.visible = true;
-        this.parameters = {
-            scale :0.33, 
+        this.redrawOnChange = false;
+/*         this.parameters = {
+            scale :0.75, 
             // Values for the attractor function
             a : -0.5,
             b : -0.9,
@@ -17,6 +19,16 @@ export default class Flow{
             d : -0.5,
             e : 0.3, 
             f : 0.15
+        }
+ */        this.parameters = {
+            scale :0.75, 
+            // Values for the attractor function
+            a : 0.35,
+            b : 0.15,
+            c : 0.2,
+            d : -0.1,
+            e : -0.05, 
+            f : 0.45
         }
         this.build();
     }
@@ -131,6 +143,9 @@ export default class Flow{
         this.visible = false;
         this.emptyGroup();
     }
+    copyFlow(){
+        console.log(JSON.stringify(this.parameters));
+    }
     emptyGroup(){
         for (let i = this.group.children.length - 1; i >= 0; i--) {
             this.group.remove(this.group.children[i]);
@@ -140,6 +155,9 @@ export default class Flow{
         if(this.visible){
             this.emptyGroup();
             this.createCubeGrid(this.width, 7);
+        }
+        if(this.redrawOnChange){
+            this.redraw();
         }
     }
 }
