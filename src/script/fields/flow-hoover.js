@@ -1,7 +1,7 @@
 'use strict'
 import * as THREE from 'three';
 
-export default class FlowClifford{
+export default class FlowHoover{
     constructor(scene, resolution, redrawCallback){
         this.scene = scene;
         this.redraw = redrawCallback;
@@ -23,12 +23,7 @@ export default class FlowClifford{
  */        this.parameters = {
             scale :0.65, 
             // Values for the attractor function
-            a : -0.15,
-            b : 0.25,
-            c : 0.65,
-            d : 0.15,
-            e : 0.1, 
-            f : 0.25
+            a : 1.5,
         }
         this.build();
     }
@@ -98,6 +93,12 @@ export default class FlowClifford{
         this.group.add(mesh);
     }
     getValue(x = 0, y = 0, z = 0){
+
+
+        let dx = y;
+        let dy = y*z -x;
+        let dz = this.parameters.a - y*y;
+
         // let nx;
         let dx = (x - this.width / 2) * this.parameters.scale;
         // console.log('x', x, dx);

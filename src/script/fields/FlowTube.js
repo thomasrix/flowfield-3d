@@ -13,7 +13,7 @@ export default class FlowTube{
     }
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
-        this.speed = new THREE.Vector3(0, 0.2, 0.1);
+        this.speed = new THREE.Vector3(0, .2, 0);
         this.numberOfSteps = 300;
         this.tubeGroup = new THREE.Group();
         this.scene.add(this.tubeGroup);
@@ -33,9 +33,9 @@ export default class FlowTube{
             // console.log(diff.length());
             // diff.setLength(0.01);
             // this.speed.add(diff.multiplyScalar(0.15));
-            this.speed.addScaledVector(diff, 0.13);
+            this.speed.addScaledVector(diff, 0.09);
             this.pointPosition.add(this.speed);
-            this.speed.multiplyScalar(0.75);
+            this.speed.multiplyScalar(0.7);
 
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z).multiplyScalar(0.05));
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));

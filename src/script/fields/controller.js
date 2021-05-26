@@ -13,7 +13,7 @@ export default class Controllers{
         this.gui = new dat.GUI({
             useLocalStorage:true
         });
-        this.gui.close();
+        // this.gui.close();
         // this.settingsContainer = create('div', select('body'), 'settings-container');
         // this.addPanel();
         
@@ -89,6 +89,9 @@ export default class Controllers{
         flowFolder.add(flow, 'copyFlow');
         flowFolder.add(flow, 'redrawOnChange');
         
+        flowFolder.add(flow.parameters, 'scale', 0, 1, 0.05).onFinishChange(()=>{
+            flow.redrawFlow();
+        });
         flowFolder.add(flow.parameters, 'a', -1, 1, 0.05).onFinishChange(()=>{
             flow.redrawFlow();
         });
