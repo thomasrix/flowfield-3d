@@ -4,13 +4,14 @@ import { Vector2, Vector3 } from 'three';
 import {lerp} from '../utils/trix';
 
 export default class FlowTube{
-    constructor(scene, flow, position, material, tubeSteps = 300, useLine = true){
+    constructor(scene, flow, position, material, tubeSteps = 300, useLine = true, diameter = {min:0.001, max: 0.01}){
         this.scene = scene;
         this.flow = flow;
         this.numberOfSteps = tubeSteps;
         this.startPos = position;
         this.material = material;
         this.useLine = useLine;
+        this.diameter = diameter;
         this.build();
     }
     build(){
@@ -63,7 +64,7 @@ export default class FlowTube{
     }
     drawTube(){
 
-        const diameter = lerp(Math.random(), 0.0, 0.05);
+        const diameter = lerp(Math.random(), this.diameter.min, this.diameter.max);
         const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 8, diameter, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, this.material );

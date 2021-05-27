@@ -90,7 +90,7 @@ export default class Controllers{
         flowFolder.add(flow.parameters, 'a', 0, 3, 0.05).onFinishChange(()=>{
             flow.redrawFlow();
         });
-
+        flowFolder.open();
     }
     addFlowControllers(flow){
         const flowFolder = this.gui.addFolder('Flow Controls');

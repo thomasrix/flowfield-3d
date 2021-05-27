@@ -19,6 +19,7 @@ export default class ThirdField{
         this.numOfTubes = 5;
         this.tubeSteps = 300;
         this.distanceToCenter = 1.5;
+        this.diameter = {min:0.001, max: 0.01};
         this.useLine = true;
         this.build();
     }
@@ -64,12 +65,16 @@ export default class ThirdField{
         this.boundAni();
         
         this.settings.addSaveButton(this.tubes);
-        this.settings.gui.add(this, 'removeTubes');
-        this.settings.gui.add(this, 'reTube');
-        this.settings.gui.add(this, 'useLine');
-        this.settings.gui.add(this, 'numOfTubes', 1, 300, 1);
-        this.settings.gui.add(this, 'tubeSteps', 100, 1000, 10);
-        this.settings.gui.add(this, 'distanceToCenter', 0, 5, 0.1);
+        const tubesSettingsFolder = this.settings.gui.addFolder('tubes');
+        tubesSettingsFolder.add(this, 'removeTubes');
+        tubesSettingsFolder.add(this, 'reTube');
+        tubesSettingsFolder.add(this, 'useLine');
+        tubesSettingsFolder.add(this, 'numOfTubes', 1, 300, 1);
+        tubesSettingsFolder.add(this, 'tubeSteps', 100, 1000, 10);
+        tubesSettingsFolder.add(this, 'distanceToCenter', 0, 5, 0.1);
+        tubesSettingsFolder.add(this.diameter, 'min', 0.001, 0.1, 0.001);
+        tubesSettingsFolder.add(this.diameter, 'max', 0.001, 0.1, 0.001);
+        tubesSettingsFolder.open();
     }
     animate(){
         // console.log('animate');
@@ -166,7 +171,8 @@ export default class ThirdField{
                 },
                 baseMaterial,
                 this.tubeSteps,
-                this.useLine);
+                this.useLine,
+                this.diameter);
             }
         for(let i = 0 ; i < 0 ; i++){
             const tube = new FlowTube(
