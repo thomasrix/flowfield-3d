@@ -82,6 +82,16 @@ export default class Controllers{
             light.color.setRGB(r, g, b);
         });
     }
+    addHooverFlowControllers(flow){
+        const flowFolder = this.gui.addFolder('Flow Controls');
+        flowFolder.add(flow, 'showFlow');
+        flowFolder.add(flow, 'hideFlow');
+        flowFolder.add(flow, 'redrawOnChange');
+        flowFolder.add(flow.parameters, 'a', 0, 3, 0.05).onFinishChange(()=>{
+            flow.redrawFlow();
+        });
+
+    }
     addFlowControllers(flow){
         const flowFolder = this.gui.addFolder('Flow Controls');
         flowFolder.add(flow, 'showFlow');

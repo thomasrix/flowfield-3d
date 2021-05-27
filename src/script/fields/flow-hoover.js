@@ -99,22 +99,29 @@ export default class FlowHoover{
         let dy = y*z -x;
         let dz = this.parameters.a - y*y;
 
-        // let nx;
-        let dx = (x - this.width / 2) * this.parameters.scale;
-        // console.log('x', x, dx);
-        // let ny = y + 0.4;
-        let dz = (z - this.width / 2) * this.parameters.scale
-        let dy = (y - this.height / 2) * this.parameters.scale;
-        // console.log('dx', dx, x);
-        
-        
-        let nx = Math.sin(this.parameters.a * dy) + this.parameters.d * Math.cos(this.parameters.a * dx);
-        let ny = Math.sin(this.parameters.b * dx) + this.parameters.e * Math.cos(this.parameters.b * dz);
-        let nz = Math.sin(this.parameters.c * dz) + this.parameters.f * Math.cos(this.parameters.c * dy);
-        // console.log('nx', nx, x);
-        // let nz = 0;
 
-        return new THREE.Vector3( x + nx, y + ny, z + nz);
+        // from processing;
+        /*
+        float pA = 1.5;
+
+        NoseHooverAttractor() {
+            name = "Nose-Hoover";
+            maxIter = 40000;
+            lastPt = new PVector(1, 0, 0);
+            sP = 0.009;
+            magFactor = 80;
+        }
+    
+        PVector getDelta() {
+            float dx = lastPt.y;
+            float dy = -lastPt.x + lastPt.y * lastPt.z;
+            float dz = pA - util.flSq(lastPt.y);
+            return new PVector(dx, dy, dz);
+        }
+        */
+
+        return new THREE.Vector3( dx, dy, dz);
+        // return new THREE.Vector3( x + nx, y + ny, z + nz);
 /*         return {
             x:x + (nx),
             y:y + (ny),

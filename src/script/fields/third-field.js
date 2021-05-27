@@ -8,6 +8,7 @@ import SimpleTubeWithEnd from './SimpleTubeWithEnd';
 import Controllers from './controller';
 import FlowClifford from './flow';
 import FlowTube from './FlowTube';
+import FlowHoover from './flow-hoover';
 
 
 export default class ThirdField{
@@ -15,7 +16,10 @@ export default class ThirdField{
         console.log('first constructed');
         this.width = 1920;
         this.height = 1920;
-        this.numOfTubes = 50;
+        this.numOfTubes = 5;
+        this.tubeSteps = 300;
+        this.distanceToCenter = 1.5;
+        this.useLine = true;
         this.build();
     }
     build(){
@@ -62,7 +66,10 @@ export default class ThirdField{
         this.settings.addSaveButton(this.tubes);
         this.settings.gui.add(this, 'removeTubes');
         this.settings.gui.add(this, 'reTube');
-        this.settings.gui.add(this, 'numOfTubes', 10, 500, 10);
+        this.settings.gui.add(this, 'useLine');
+        this.settings.gui.add(this, 'numOfTubes', 1, 300, 1);
+        this.settings.gui.add(this, 'tubeSteps', 100, 1000, 10);
+        this.settings.gui.add(this, 'distanceToCenter', 0, 5, 0.1);
     }
     animate(){
         // console.log('animate');
@@ -72,8 +79,8 @@ export default class ThirdField{
     }
     addCamera(){
         this.camera = new THREE.PerspectiveCamera(40, this.width / this.height, 0.1, 1000);
-        this.camera.position.z = 80;
-        this.camera.position.x = 20;
+        this.camera.position.z = 30;
+        this.camera.position.x = 10;
         this.camera.position.y = 8;
         
         // this.camera.lookAt(10, 10, 0);
@@ -118,29 +125,9 @@ export default class ThirdField{
         console.log(this.plane.position)
     }
     
-    addLine(){
-        const curve = new THREE.CatmullRomCurve3( [
-            new THREE.Vector3( -10, 0, 10 ),
-            new THREE.Vector3( -5, 5, 5 ),
-            new THREE.Vector3( 0, 0, 0 ),
-            new THREE.Vector3( 5, -5, 5 ),
-            new THREE.Vector3( 10, 0, 10 )
-        ] );
-        
-        const points = curve.getPoints( 50 );
-        const geometry = new THREE.BufferGeometry().setFromPoints( points );
-        
-        const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-        
-        // Create the final object to add to the scene
-        const curveObject = new THREE.Line( geometry, material );
-        curveObject.scale.set(0.2, 0.2, 0.2);
-        curveObject.position.set(0, 2, 0);
-        this.scene.add(curveObject);
-    }
     addFlow(){
-        this.flow = new FlowClifford(this.scene, 5, this.reTube.bind(this));
-        this.settings.addFlowControllers(this.flow);
+        this.flow = new FlowHoover(this.scene, 5, this.reTube.bind(this));
+        this.settings.addHooverFlowControllers(this.flow);
     }
     addTubeWithEnd(){
         const tubes = [];
@@ -173,11 +160,13 @@ export default class ThirdField{
                 this.tubes, 
                 this.flow, 
                 {
-                    x:lerp(Math.random(), center - 5, center + 5), 
-                    y:lerp(Math.random(), center - 5, center + 5), 
-                    z:lerp(Math.random(), center - 5, center + 5)
+                    x:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter), 
+                    y:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter), 
+                    z:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter)
                 },
-                baseMaterial);
+                baseMaterial,
+                this.tubeSteps,
+                this.useLine);
             }
         for(let i = 0 ; i < 0 ; i++){
             const tube = new FlowTube(

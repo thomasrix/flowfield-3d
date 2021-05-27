@@ -4,21 +4,26 @@ import { Vector2, Vector3 } from 'three';
 import {lerp} from '../utils/trix';
 
 export default class FlowTube{
-    constructor(scene, flow, position, material){
+    constructor(scene, flow, position, material, tubeSteps = 300, useLine = true){
         this.scene = scene;
         this.flow = flow;
+        this.numberOfSteps = tubeSteps;
         this.startPos = position;
         this.material = material;
+        this.useLine = useLine;
         this.build();
     }
     build(){
         this.pointPosition = new THREE.Vector3(this.startPos.x, this.startPos.y, this.startPos.z);
-        this.speed = new THREE.Vector3(0, .2, 0);
-        this.numberOfSteps = 300;
+        this.speed = new THREE.Vector3(0, 0, 0);
         this.tubeGroup = new THREE.Group();
         this.scene.add(this.tubeGroup);
         this.makePath();
-        this.drawTube();
+        if(this.useLine){
+            this.drawLine();
+        }else{
+            this.drawTube();
+        }
     }
     makePath(){
 
@@ -33,9 +38,9 @@ export default class FlowTube{
             // console.log(diff.length());
             // diff.setLength(0.01);
             // this.speed.add(diff.multiplyScalar(0.15));
-            this.speed.addScaledVector(diff, 0.09);
+            this.speed.addScaledVector(diff, 0.075);
             this.pointPosition.add(this.speed);
-            this.speed.multiplyScalar(0.7);
+            this.speed.multiplyScalar(0.75);
 
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z).multiplyScalar(0.05));
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
@@ -44,10 +49,22 @@ export default class FlowTube{
         this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.25);
         
     }
+    drawLine(){
+        const points = this.curve.getPoints( this.numberOfSteps );
+        const geometry = new THREE.BufferGeometry().setFromPoints( points );
+        
+        const material = new THREE.LineBasicMaterial( { color : 0xccccff } );
+        
+        // Create the final object to add to the scene
+        const curveObject = new THREE.Line( geometry, material );
+        // curveObject.scale.set(0.2, 0.2, 0.2);
+        // curveObject.position.set(0, 2, 0);
+        this.scene.add(curveObject);        
+    }
     drawTube(){
 
-        const diameter = lerp(Math.random(), 0.003, 0.1);
-        const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 2, diameter, 8, false );
+        const diameter = lerp(Math.random(), 0.0, 0.05);
+        const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 8, diameter, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, this.material );
         // mesh.scale.set(0.2, 0.2, 0.2);
