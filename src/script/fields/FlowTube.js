@@ -31,7 +31,7 @@ export default class FlowTube{
         const points = [];
         for(let i = 0; i < this.numberOfSteps ; i++){
             points[i] = this.pointPosition.clone();
-            const flowValue = this.flow.getValue(this.pointPosition.x, this.pointPosition.y, this.pointPosition.z);
+            const flowValue = this.flow.getValue(this.pointPosition.x, this.pointPosition.y, this.pointPosition.z, i);
             // const change = new THREE.Vector3((Math.random() * 0.6) -0.3, (Math.random() * 0.6) -0.3, (Math.random() * 0.6) -0.3);
             const diff = new THREE.Vector3().subVectors(flowValue, this.pointPosition);
             // const angle = this.pointPosition.angleTo(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
@@ -39,7 +39,7 @@ export default class FlowTube{
             // console.log(diff.length());
             // diff.setLength(0.01);
             // this.speed.add(diff.multiplyScalar(0.15));
-            this.speed.addScaledVector(diff, 0.075);
+            this.speed.addScaledVector(diff, 0.065);
             this.pointPosition.add(this.speed);
             this.speed.multiplyScalar(0.75);
 

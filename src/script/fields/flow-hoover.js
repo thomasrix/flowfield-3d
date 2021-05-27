@@ -92,12 +92,12 @@ export default class FlowHoover{
         mesh.castShadow = true;
         this.group.add(mesh);
     }
-    getValue(x = 0, y = 0, z = 0){
+    getValue(x = 0, y = 0, z = 0, i = 0){
 
-
+        const a = this.parameters.a + (i * 0.002);
         let dx = y;
         let dy = y*z -x;
-        let dz = this.parameters.a - y*y;
+        let dz = a - y*y;
 
 
         // from processing;
