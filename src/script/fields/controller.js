@@ -59,7 +59,7 @@ export default class Controllers{
         }, {} );
     }
     addLightController(light){
-        console.log('add light');
+        // console.log('add light');
         // this.gui.remember(color);
         // this.gui.remember(strength);
         this.gui.getSaveObject();

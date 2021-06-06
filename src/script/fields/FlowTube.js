@@ -41,13 +41,13 @@ export default class FlowTube{
             // this.speed.add(diff.multiplyScalar(0.15));
             this.speed.addScaledVector(diff, 0.065);
             this.pointPosition.add(this.speed);
-            this.speed.multiplyScalar(0.75);
+            this.speed.multiplyScalar(0.65);
 
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z).multiplyScalar(0.05));
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
         }
         // console.log(points);
-        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.25);
+        this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.5);
         
     }
     drawLine(){
@@ -65,7 +65,7 @@ export default class FlowTube{
     drawTube(){
 
         const diameter = lerp(Math.random(), this.diameter.min, this.diameter.max);
-        const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 8, diameter, 8, false );
+        const geometry = new THREE.TubeGeometry( this.curve, this.numberOfSteps * 10, diameter, 8, false );
         // const material = new THREE.MeshBasicMaterial( { color: 0x992233 } );
         const mesh = new THREE.Mesh( geometry, this.material );
         // mesh.scale.set(0.2, 0.2, 0.2);
