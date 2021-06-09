@@ -94,7 +94,7 @@ export default class FlowClifford{
 
         const mesh = new THREE.Mesh(this.sphereGeom, this.material);
         mesh.position.set(x, y, z);
-        mesh.castShadow = true;
+        // mesh.castShadow = true;
         this.group.add(mesh);
     }
     getValue(x = 0, y = 0, z = 0){

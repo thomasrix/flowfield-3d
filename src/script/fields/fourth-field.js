@@ -16,7 +16,7 @@ export default class FourthField{
         console.log('fourth constructed');
         this.width = 1920;
         this.height = 1920;
-        this.numOfTubes = 5;
+        this.numOfTubes = 100;
         this.tubeSteps = 300;
         this.distanceToCenter = 1.5;
         this.diameter = {min:0.001, max: 0.01};
@@ -43,7 +43,7 @@ export default class FourthField{
         // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         // console.log(this.renderer)
         this.renderer.setSize(this.width, this.height);
-        
+        this.createStartPositions();
         
         this.addCamera();
         this.addLights();
@@ -53,8 +53,14 @@ export default class FourthField{
         // this.addLine();
         // this.addTubeWithEnd();
         this.tubes = new THREE.Group();
-        this.scene.add(this.tubes);
-        this.addTubes();
+        this.spheres = new THREE.Group();
+        this.saveObjects = new THREE.Group();
+        this.scene.add(this.saveObjects);
+        this.saveObjects.add(this.tubes);
+        this.saveObjects.add(this.spheres);
+
+        this.addSpheres();
+        // this.addTubes();
         this.scene.add(new THREE.GridHelper());
         
         this.controls = new OrbitControls( this.camera, this.canvas );
@@ -64,7 +70,7 @@ export default class FourthField{
         this.boundAni = this.animate.bind(this);
         this.boundAni();
         
-        this.settings.addSaveButton(this.tubes);
+        this.settings.addSaveButton(this.saveObjects);
         const tubesSettingsFolder = this.settings.gui.addFolder('tubes');
         tubesSettingsFolder.add(this, 'removeTubes');
         tubesSettingsFolder.add(this, 'reTube');
@@ -134,11 +140,37 @@ export default class FourthField{
         this.flow = new FlowHoover(this.scene, 5, this.reTube.bind(this));
         this.settings.addHooverFlowControllers(this.flow);
     }
-    addTubeWithEnd(){
-        const tubes = [];
-        for(let i = 0 ; i < 3 ; i++){
-            tubes[i] = new SimpleTubeWithEnd(this.scene, i);
-        }
+    createStartPositions(){
+        this.startPositions = [];
+        
+        for(let s = 0 ; s < this.numOfTubes ; s++){
+            const v = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+            v.setLength(lerp(Math.random(), this.distanceToCenter * .5, this.distanceToCenter));
+            this.startPositions[s] = {
+                pos: new THREE.Vector3(v.x, v.y, v.z),
+                size: lerp(Math.random(), this.diameter.min, this.diameter.max)
+            };
+        }    
+
+    }
+    addSpheres(){
+        const sphereMaterial = new THREE.MeshStandardMaterial({
+            color: '#CC0000',
+            metalness:0.3,
+            roughness:0.1,
+            wireframe:false,
+            // side:THREE.DoubleSide
+        });   
+        this.sphereGeom = new THREE.SphereGeometry( 0.05, 16, 16 );
+        
+        for(let s = 0 ; s < this.startPositions.length ; s++){
+            const scale = this.startPositions[s].size * 50;
+            const v = this.startPositions[s].pos;
+            const mesh = new THREE.Mesh(this.sphereGeom, sphereMaterial);
+            mesh.position.set(v.x, v.y, v.z);
+            mesh.scale.set(scale, scale, scale);
+            this.spheres.add(mesh);
+        }    
     }
     addTubes(){
         const baseMaterial = new THREE.MeshStandardMaterial({
@@ -157,18 +189,12 @@ export default class FourthField{
         });
         // const center = this.flow.width / 2;
         const center = 0;
-        
 
-
-        for(let i = 0 ; i < this.numOfTubes ; i++){
+        for(let i = 0 ; i < this.startPositions.length ; i++){
             const tube = new FlowTube(
                 this.tubes, 
                 this.flow, 
-                {
-                    x:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter), 
-                    y:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter), 
-                    z:lerp(Math.random(), center - this.distanceToCenter, center + this.distanceToCenter)
-                },
+                this.startPositions[i],
                 baseMaterial,
                 this.tubeSteps,
                 this.useLine,
@@ -186,13 +212,21 @@ export default class FourthField{
                 extraMaterial);
             }
         }
+        removeSpheres(){
+            for (let i = this.spheres.children.length - 1; i >= 0; i--) {
+                this.spheres.remove(this.spheres.children[i]);
+            }
+        }
         removeTubes(){
             for (let i = this.tubes.children.length - 1; i >= 0; i--) {
                 this.tubes.remove(this.tubes.children[i]);
             }
         }
-        reTube(){       
-            this.removeTubes(); 
+        reTube(){
+            this.createStartPositions();     
+            this.removeSpheres();  
+            this.removeTubes();
+            this.addSpheres(); 
             this.addTubes();
         }
         
