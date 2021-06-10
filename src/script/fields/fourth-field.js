@@ -151,7 +151,6 @@ export default class FourthField{
                 size: lerp(Math.random(), this.diameter.min, this.diameter.max)
             };
         }    
-
     }
     addSpheres(){
         const sphereMaterial = new THREE.MeshStandardMaterial({
@@ -161,7 +160,7 @@ export default class FourthField{
             wireframe:false,
             // side:THREE.DoubleSide
         });   
-        this.sphereGeom = new THREE.SphereGeometry( 0.05, 16, 16 );
+        this.sphereGeom = new THREE.SphereGeometry( 0.05, 32, 32 );
         
         for(let s = 0 ; s < this.startPositions.length ; s++){
             const scale = this.startPositions[s].size * 50;

@@ -47,7 +47,7 @@ export default class FlowTube{
             // this.speed.add(new THREE.Vector3(flowValue.x, flowValue.y, flowValue.z));
         }
         // console.log(points);
-        points.shift();
+        // points.shift();
         this.curve = new THREE.CatmullRomCurve3( points, false, 'catmullrom', 0.5);
         
     }
